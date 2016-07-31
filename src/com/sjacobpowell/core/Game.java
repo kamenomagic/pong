@@ -52,14 +52,21 @@ public class Game {
 		if (ball.topEdge() < 0 || ball.bottomEdge() > height) {
 			ball.ySpeed = -ball.ySpeed;
 		}
-		if (ball.isColliding(player1) || ball.isColliding(player2)) {
+		boolean player1hit = ball.isColliding(player1);
+		boolean player2hit = ball.isColliding(player2);
+		if (player1hit || player2hit) {
 			ball.xSpeed = -ball.xSpeed * 1.1;
+			if(player1hit) {
+				ball.ySpeed *= ball.y < player1.y ? .9 : 1.1;
+			} else {
+				ball.ySpeed *= ball.y < player2.y ? .9 : 1.1;
+			}
 		}
-		if (ball.rightEdge() > player2.rightEdge()) {
+		if (ball.rightEdge() > player2.rightEdge() && !player2hit) {
 			player1.points++;
 			reset();
 		}
-		if (ball.leftEdge() < player1.leftEdge()) {
+		if (ball.leftEdge() < player1.leftEdge() && !player1hit) {
 			player2.points++;
 			reset();
 		}
@@ -76,7 +83,7 @@ public class Game {
 		player1.x = player1.sprite.width / 2;
 		player2.x = width - player2.sprite.width / 2;
 		ball.xSpeed = ball.xSpeed > 0 ? -BALL_SPEED : BALL_SPEED;
-//		ball.ySpeed = BALL_SPEED;
+		ball.ySpeed = BALL_SPEED;
 		ball.x = width / 2;
 		ball.y = height / 2;
 	}
