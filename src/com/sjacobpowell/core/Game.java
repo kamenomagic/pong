@@ -21,6 +21,7 @@ public class Game {
 		player1 = new Paddle();
 		player2 = new Paddle();
 		ball = new Ball();
+		ball.xSpeed = BALL_SPEED;
 		reset();
 	}
 
@@ -31,27 +32,38 @@ public class Game {
 		boolean down1 = keys[KeyEvent.VK_S];
 		boolean up2 = keys[KeyEvent.VK_UP];
 		boolean down2 = keys[KeyEvent.VK_DOWN];
-		
-		if(up1 || down1) {
+
+		if (up1 || down1) {
 			player1.ySpeed = up1 ? -PADDLE_SPEED : PADDLE_SPEED;
 		} else {
 			player1.ySpeed = 0;
 		}
 
-		if(up2 || down2) {
+		if (up2 || down2) {
 			player2.ySpeed = up2 ? -PADDLE_SPEED : PADDLE_SPEED;
 		} else {
 			player2.ySpeed = 0;
 		}
-		
+
 		player1.y = player1.topEdge() < 0 ? player1.sprite.height / 2 : player1.y;
 		player2.y = player2.topEdge() < 0 ? player2.sprite.height / 2 : player2.y;
 		player1.y = player1.bottomEdge() >= height ? height - player1.sprite.height / 2 : player1.y;
 		player2.y = player2.bottomEdge() >= height ? height - player2.sprite.height / 2 : player2.y;
-		if(ball.topEdge() < 0 || ball.bottomEdge() > height) ball.ySpeed = -ball.ySpeed;
-		if(ball.isColliding(player1) || ball.isColliding(player2)) ball.xSpeed = -ball.xSpeed;
-		if(ball.rightEdge() > player2.rightEdge() || ball.leftEdge() < player1.leftEdge()) reset();
-		
+		if (ball.topEdge() < 0 || ball.bottomEdge() > height) {
+			ball.ySpeed = -ball.ySpeed;
+		}
+		if (ball.isColliding(player1) || ball.isColliding(player2)) {
+			ball.xSpeed = -ball.xSpeed * 1.1;
+		}
+		if (ball.rightEdge() > player2.rightEdge()) {
+			player1.points++;
+			reset();
+		}
+		if (ball.leftEdge() < player1.leftEdge()) {
+			player2.points++;
+			reset();
+		}
+
 		player1.move();
 		player2.move();
 		ball.move();
@@ -63,8 +75,8 @@ public class Game {
 		player1.y = player2.y = height / 2;
 		player1.x = player1.sprite.width / 2;
 		player2.x = width - player2.sprite.width / 2;
-		ball.xSpeed = -BALL_SPEED;
-		ball.ySpeed = BALL_SPEED;
+		ball.xSpeed = ball.xSpeed > 0 ? -BALL_SPEED : BALL_SPEED;
+//		ball.ySpeed = BALL_SPEED;
 		ball.x = width / 2;
 		ball.y = height / 2;
 	}

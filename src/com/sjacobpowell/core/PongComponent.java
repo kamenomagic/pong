@@ -2,6 +2,7 @@ package com.sjacobpowell.core;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -112,6 +113,9 @@ public class PongComponent extends Canvas implements Runnable {
 
 		Graphics g = strategy.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+		g.setColor(Color.WHITE);
+		g.drawString(String.valueOf(game.player1.points), WIDTH * SCALE / 2 - 50, 10);
+		g.drawString(String.valueOf(game.player2.points), WIDTH * SCALE / 2 + 50, 10);
 		g.dispose();
 		strategy.show();
 	}
