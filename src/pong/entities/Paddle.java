@@ -1,6 +1,6 @@
-package com.sjacobpowell.entities;
+package pong.entities;
 
-import com.sjacobpowell.core.Bitmap;
+import pong.core.Bitmap;
 
 public class Paddle extends Entity {
 	public int points;

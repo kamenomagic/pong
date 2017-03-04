@@ -1,9 +1,9 @@
-package com.sjacobpowell.core;
+package pong.core;
 
 import java.awt.event.KeyEvent;
 
-import com.sjacobpowell.entities.Ball;
-import com.sjacobpowell.entities.Paddle;
+import pong.entities.Ball;
+import pong.entities.Paddle;
 
 public class Game {
 	public int time;

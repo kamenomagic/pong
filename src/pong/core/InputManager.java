@@ -1,4 +1,4 @@
-package com.sjacobpowell.core;
+package pong.core;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

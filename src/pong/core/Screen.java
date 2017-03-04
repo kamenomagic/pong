@@ -1,4 +1,4 @@
-package com.sjacobpowell.core;
+package pong.core;
 
 public class Screen extends Bitmap {
 	public Screen(int width, int height) {

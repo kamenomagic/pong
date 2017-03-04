@@ -1,4 +1,4 @@
-package com.sjacobpowell.core;
+package pong.core;
 
 public class Bitmap {
 	public int width;

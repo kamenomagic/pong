@@ -1,4 +1,4 @@
-package ml.neuralnet;
+package neuralnet;
 
 public class Node {
 	public double net;

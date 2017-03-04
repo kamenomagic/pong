@@ -1,4 +1,4 @@
-package ml.neuralnet;
+package neuralnet;
 
 public class Layer {
 	public Node[] nodes;

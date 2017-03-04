@@ -1,4 +1,4 @@
-package com.sjacobpowell.core;
+package pong.core;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;

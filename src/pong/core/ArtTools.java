@@ -1,4 +1,4 @@
-package com.sjacobpowell.core;
+package pong.core;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
