@@ -14,6 +14,8 @@ public class Game {
 	public Ball ball;
 	private static final double PADDLE_SPEED = 10;
 	private static final double BALL_SPEED = 2.5;
+	private boolean usePlayer1AI = false;
+	private boolean usePlayer2AI = false;
 
 	public Game(int width, int height) {
 		this.width = width;
@@ -25,6 +27,14 @@ public class Game {
 		reset();
 	}
 
+	public void setUsePlayer1AI(boolean useAI) {
+		usePlayer1AI = useAI;
+	}
+
+	public void setUsePlayer2AI(boolean useAI) {
+		usePlayer2AI = useAI;
+	}
+
 	public void tick(boolean[] keys) {
 		if (keys[KeyEvent.VK_ESCAPE])
 			System.exit(0);
@@ -33,16 +43,36 @@ public class Game {
 		boolean up2 = keys[KeyEvent.VK_UP];
 		boolean down2 = keys[KeyEvent.VK_DOWN];
 
-		if (up1 || down1) {
-			player1.ySpeed = up1 ? -PADDLE_SPEED : PADDLE_SPEED;
+		if (usePlayer1AI) {
+			if (ball.y < player1.y) {
+				player1.ySpeed = -PADDLE_SPEED;
+			} else if (ball.y > player1.y) {
+				player1.ySpeed = PADDLE_SPEED;
+			} else {
+				player1.ySpeed = 0;
+			}
 		} else {
-			player1.ySpeed = 0;
+			if (up1 || down1) {
+				player1.ySpeed = up1 ? -PADDLE_SPEED : PADDLE_SPEED;
+			} else {
+				player1.ySpeed = 0;
+			}
 		}
 
-		if (up2 || down2) {
-			player2.ySpeed = up2 ? -PADDLE_SPEED : PADDLE_SPEED;
+		if (usePlayer2AI) {
+			if (ball.y < player2.y) {
+				player2.ySpeed = -PADDLE_SPEED;
+			} else if (ball.y > player2.y) {
+				player2.ySpeed = PADDLE_SPEED;
+			} else {
+				player2.ySpeed = 0;
+			}
 		} else {
-			player2.ySpeed = 0;
+			if (up2 || down2) {
+				player2.ySpeed = up2 ? -PADDLE_SPEED : PADDLE_SPEED;
+			} else {
+				player2.ySpeed = 0;
+			}
 		}
 
 		player1.y = player1.topEdge() < 0 ? player1.sprite.height / 2 : player1.y;
