@@ -39,6 +39,7 @@ public class PongComponent extends Canvas implements Runnable {
 		game = new Game(WIDTH, HEIGHT);
 //		game.setUsePlayer1AI(true);
 //		game.setUsePlayer2AI(true);
+		game.setUsePlayer1ML(true);
 		screen = new Screen(WIDTH, HEIGHT);
 
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);

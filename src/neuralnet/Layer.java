@@ -24,5 +24,4 @@ public class Layer {
 		outputs[outputs.length - 1] = 1;
 		return outputs;
 	}
-
 }

@@ -16,6 +16,8 @@ public class Game {
 	private static final double BALL_SPEED = 2.5;
 	private boolean usePlayer1AI = false;
 	private boolean usePlayer2AI = false;
+	private boolean usePlayer1ML = false;
+	private boolean usePlayer2ML = false;
 
 	public Game(int width, int height) {
 		this.width = width;
@@ -35,6 +37,14 @@ public class Game {
 		usePlayer2AI = useAI;
 	}
 
+	public void setUsePlayer1ML(boolean useML) {
+		usePlayer1ML = useML;
+	}
+
+	public void setUsePlayer2ML(boolean useML) {
+		usePlayer2ML = useML;
+	}
+
 	public void tick(boolean[] keys) {
 		if (keys[KeyEvent.VK_ESCAPE])
 			System.exit(0);
@@ -43,7 +53,9 @@ public class Game {
 		boolean up2 = keys[KeyEvent.VK_UP];
 		boolean down2 = keys[KeyEvent.VK_DOWN];
 
-		if (usePlayer1AI) {
+		if(usePlayer1ML) {
+			
+		} else if (usePlayer1AI) {
 			if (ball.y < player1.y) {
 				player1.ySpeed = -PADDLE_SPEED;
 			} else if (ball.y > player1.y) {
@@ -58,8 +70,9 @@ public class Game {
 				player1.ySpeed = 0;
 			}
 		}
-
-		if (usePlayer2AI) {
+		if(usePlayer2ML) {
+			
+		} else if (usePlayer2AI) {
 			if (ball.y < player2.y) {
 				player2.ySpeed = -PADDLE_SPEED;
 			} else if (ball.y > player2.y) {
