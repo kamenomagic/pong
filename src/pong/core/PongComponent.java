@@ -8,16 +8,18 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class PongComponent extends Canvas implements Runnable {
+public class PongComponent extends Canvas {
 	private static final long serialVersionUID = 1L;
 	public static int WIDTH = 800;
 	public static int HEIGHT = 600;
 	public static final int SCALE = 1;
 	private boolean running = false;
+	private boolean render = true;
 	private Thread thread;
 	private Game game;
 	private Screen screen;
@@ -37,9 +39,9 @@ public class PongComponent extends Canvas implements Runnable {
 		setMaximumSize(size);
 
 		game = new Game(WIDTH, HEIGHT);
-//		game.setUsePlayer1AI(true);
+		game.setUseML(true);
 //		game.setUsePlayer2AI(true);
-		game.setUsePlayer1ML(true);
+		game.setUseWall(true);
 		screen = new Screen(WIDTH, HEIGHT);
 
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -48,52 +50,62 @@ public class PongComponent extends Canvas implements Runnable {
 		inputManager = new InputManager();
 		addKeyListener(inputManager);
 	}
+	
+	public PongComponent render(boolean render) {
+		this.render = render;
+		return this;
+	}
 
-	@Override
-	public void run() {
-		int frames = 0;
-		int tickCount = 0;
-		double FPS = 60.0;
-		double unprocessedSeconds = 0;
-		double secondsPerTick = 1 / FPS;
-		double end = System.nanoTime();
+	private void run() {
+		if(render) {
+			int frames = 0;
+			int tickCount = 0;
+			double FPS = 60.0;
+			double unprocessedSeconds = 0;
+			double secondsPerTick = 1 / FPS;
+			double end = System.nanoTime();
 
-		requestFocus();
+			requestFocus();
 
-		while (running) {
-			double start = System.nanoTime();
-			double passedTime = start - end;
-			end = start;
-			if (passedTime < 0)
-				passedTime = 0;
-			if (passedTime > 100000000)
-				passedTime = 100000000;
+			while (running) {
+				double start = System.nanoTime();
+				double passedTime = start - end;
+				end = start;
+				if (passedTime < 0)
+					passedTime = 0;
+				if (passedTime > 100000000)
+					passedTime = 100000000;
 
-			unprocessedSeconds += passedTime / 1000000000;
+				unprocessedSeconds += passedTime / 1000000000;
 
-			boolean ticked = false;
-			while (unprocessedSeconds > secondsPerTick) {
-				tick();
-				unprocessedSeconds -= secondsPerTick;
-				ticked = true;
+				boolean ticked = false;
+				while (unprocessedSeconds > secondsPerTick) {
+					tick();
+					unprocessedSeconds -= secondsPerTick;
+					ticked = true;
 
-				tickCount++;
-				if (tickCount % FPS == 0) {
-					System.out.println(frames + " fps");
-					end += 1000;
-					frames = 0;
+					tickCount++;
+					if (tickCount % FPS == 0) {
+						System.out.println(frames + " fps");
+						end += 1000;
+						frames = 0;
+					}
+				}
+
+				if (ticked) {
+					render();
+					frames++;
+				} else {
+					try {
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
-
-			if (ticked) {
-				render();
-				frames++;
-			} else {
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		} else {
+			while(running) {
+				tick();
 			}
 		}
 	}
@@ -122,13 +134,23 @@ public class PongComponent extends Canvas implements Runnable {
 		g.dispose();
 		strategy.show();
 	}
-
-	public void start() {
-		if (running)
-			return;
+	
+	public double run(double[] weights) {
+		game.weights(weights);
+		if(render) {
+			JFrame frame = new JFrame("Pong");
+			JPanel panel = new JPanel(new BorderLayout());
+			panel.add(this, BorderLayout.CENTER);
+			frame.setContentPane(panel);
+			frame.pack();
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setLocationRelativeTo(null);
+			frame.setResizable(false);
+			frame.setVisible(true);
+		} 
 		running = true;
-		thread = new Thread(this);
-		thread.start();
+		run();
+		return 0;
 	}
 
 	public void stop() {
@@ -141,18 +163,13 @@ public class PongComponent extends Canvas implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("Pong");
-		JPanel panel = new JPanel(new BorderLayout());
-		PongComponent game = new PongComponent();
-		panel.add(game, BorderLayout.CENTER);
-		frame.setContentPane(panel);
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
-		frame.setVisible(true);
-		game.start();
+		PongComponent component = new PongComponent().render(true);
+		double[] weights = new double[82];
+		for(int i = 0; i < weights.length; i++) {
+			weights[i] = new Random().nextDouble();
+		}
+		component.run(weights);
 	}
 }

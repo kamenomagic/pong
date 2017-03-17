@@ -14,10 +14,10 @@ public class Game {
 	public Ball ball;
 	private static final double PADDLE_SPEED = 10;
 	private static final double BALL_SPEED = 2.5;
-	private boolean usePlayer1AI = false;
-	private boolean usePlayer2AI = false;
-	private boolean usePlayer1ML = false;
-	private boolean usePlayer2ML = false;
+	private double[] weights;
+	private boolean useML = false;
+	private boolean useWall = false;
+	private boolean useAI = false;
 
 	public Game(int width, int height) {
 		this.width = width;
@@ -29,20 +29,20 @@ public class Game {
 		reset();
 	}
 
-	public void setUsePlayer1AI(boolean useAI) {
-		usePlayer1AI = useAI;
+	public void weights(double[] weights) {
+		this.weights= weights;
 	}
 
-	public void setUsePlayer2AI(boolean useAI) {
-		usePlayer2AI = useAI;
+	public void setUseWall(boolean useWall) {
+		this.useWall = useWall;
 	}
 
-	public void setUsePlayer1ML(boolean useML) {
-		usePlayer1ML = useML;
+	public void setUseAI(boolean useAI) {
+		this.useAI = useAI;
 	}
 
-	public void setUsePlayer2ML(boolean useML) {
-		usePlayer2ML = useML;
+	public void setUseML(boolean useML) {
+		this.useML = useML;
 	}
 
 	public void tick(boolean[] keys) {
@@ -53,26 +53,8 @@ public class Game {
 		boolean up2 = keys[KeyEvent.VK_UP];
 		boolean down2 = keys[KeyEvent.VK_DOWN];
 
-		if(usePlayer1ML) {
-			
-		} else if (usePlayer1AI) {
-			if (ball.y < player1.y) {
-				player1.ySpeed = -PADDLE_SPEED;
-			} else if (ball.y > player1.y) {
-				player1.ySpeed = PADDLE_SPEED;
-			} else {
-				player1.ySpeed = 0;
-			}
-		} else {
-			if (up1 || down1) {
-				player1.ySpeed = up1 ? -PADDLE_SPEED : PADDLE_SPEED;
-			} else {
-				player1.ySpeed = 0;
-			}
-		}
-		if(usePlayer2ML) {
-			
-		} else if (usePlayer2AI) {
+		//ML player
+		if (useAI) {
 			if (ball.y < player2.y) {
 				player2.ySpeed = -PADDLE_SPEED;
 			} else if (ball.y > player2.y) {
