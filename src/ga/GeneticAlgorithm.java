@@ -5,7 +5,7 @@ import java.util.Random;
 public class GeneticAlgorithm {
 	private static double mutationRate = 0.10;
 	
-	public static double fitness(double[] weights) {		
+	private static double fitness(double[] weights) {		
 		PongComponent pong = new PongComponent().render(true);
 		return pong.run(weights);
 	}
@@ -61,13 +61,10 @@ public class GeneticAlgorithm {
 
 	public static double[] mutate(double[] weights) {
 		Random ran = new Random();
-		for (int a = 0; a < weights.length; a++) {
+		for (int i = 0; i < weights.length; i++) {
 			if (ran.nextDouble() < mutationRate) {
 				int b = ran.nextInt(weights.length);
-				
-				double temp = weights[a];
-				weights[a] = weights[b];
-				weights[b] = temp;
+				weights[i] = weights[i] + ran.nextDouble() * 2 - 1;
 			}
 		}
 		return null;
