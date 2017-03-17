@@ -53,40 +53,6 @@ public class GeneticAlgorithm {
 		}
 		return result;
 	}
-		double[] offspring = new double[parent1.length];
-		for (int i = 0; i < parent1.Count; i++)
-        {
-            offspring.Add(null);
-        }
-		Random ran = new Random();
-		int start = ran.Next(0, parent1.Count);
-        int end = ran.Next(0, parent1.Count);
-        if (start > end)
-        {
-            int temp = start;
-            start = end;
-            end = temp;
-        }
-		for (int i = start; i <= end; i++)
-        {
-            offspring[i] = parent1[i];
-        }
-		for (int i = 0; i < parent2.Count; i++)
-        {
-			if (!offspring.Contains(parent2[i]))
-            {
-				for (int k = 0; k < offspring.Count; k++)
-                {
-					if (offspring[k] == null)
-                    {
-                        offspring[k] = parent2[i];
-                        break;
-                    }
-				}
-			}
-		}
-		return offspring;
-	}
 
 	public static double[] mutate(double[] weights) {
 		Random ran = new Random();
