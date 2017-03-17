@@ -11,9 +11,10 @@ import static ga.GeneticAlgorithm.mutate;
 public class Main {
 
 	public static final int populationSize = 1000;
-	public static final int genomeSize = 60;
+	public static final int genomeSize = 82;
 	public static final double survivalRate = 0.1;
 	public static final int survivalCount = (int)(populationSize * survivalRate);
+	public static final int keepSurvivorsCount = 0; // must be less than survivalCount
 	public static final double randomSurvivalRate = 0.01;
 	public static final int mutationCount = 1;
 	public static final int generations = 1000;
@@ -29,7 +30,7 @@ public class Main {
 			for (int i = 0; i < populationSize; i++) {
 				double genome[] = new double[genomeSize];
 				for (int j = 0; j < genomeSize; j++) {
-					genome[j] = rand.nextDouble();
+					genome[j] = rand.nextDouble() - 0.5;
 				}
 				population[i] = genome;
 			}
@@ -54,7 +55,10 @@ public class Main {
 
 			//genetic operators
 			population = new double[populationSize][];
-			for (int i = 0; i < populationSize; i++) {
+			for (int i = 0; i < keepSurvivorsCount; i++) {
+				population[i] = survivors[i];
+			}
+			for (int i = keepSurvivorsCount; i < populationSize; i++) {
 				int parent1 = rand.nextInt() % survivalCount;
 				int parent2 = rand.nextInt() % survivalCount;
 
