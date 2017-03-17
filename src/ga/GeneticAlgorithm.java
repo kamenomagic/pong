@@ -5,9 +5,9 @@ import java.util.Random;
 public class GeneticAlgorithm {
 	private static double mutationRate;
 	
-	public static double fitness(double[] weights) {
-
-		return 0;
+	public static double fitness(double[] weights) {		
+		PongComponent pong = new PongComponent().render(true);
+		return pong.run(weights);
 	}
 	
 	public static double[] fitness(double[][] population) {
