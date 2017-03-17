@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GeneticAlgorithm {
-	private static double mutationRate;
+	private static double mutationRate = 0.10;
 	
 	public static double fitness(double[] weights) {		
 		PongComponent pong = new PongComponent().render(true);
