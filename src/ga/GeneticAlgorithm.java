@@ -6,11 +6,16 @@ public class GeneticAlgorithm {
 	private static double mutationRate;
 	
 	public static double fitness(double[] weights) {
+
 		return 0;
 	}
 	
 	public static double[] fitness(double[][] population) {
-		return null;
+		double[] fitnesses = new double[population.length];
+		for(int i = 0; i < population.length; i++) {
+			fitnesses[i] = fitness(population[i]);
+		}
+		return fitnesses;
 	}
 
 	public static double[] crossover(double[] parent1, double[] parent2) {
