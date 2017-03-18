@@ -19,7 +19,6 @@ public class Game {
 	private static final double PADDLE_SPEED = 10;
 	private static final double BALL_SPEED = 2.5;
 	private double[] weights;
-	private boolean useML = false;
 	private boolean useWall = false;
 	private boolean useAI = false;
 	public boolean over;
@@ -41,11 +40,6 @@ public class Game {
 		return this;
 	}
 
-	public Game setUseML(boolean useML) {
-		this.useML = useML;
-		return this;
-	}
-	
 	public Game build() {
 		net = new NeuralNet(weights);
 		player1 = new Paddle();
