@@ -2,6 +2,8 @@ package ga;
 import java.util.ArrayList;
 import java.util.Random;
 
+import pong.core.PongComponent;
+
 public class GeneticAlgorithm {
 	private static double mutationRate = 0.10;
 	

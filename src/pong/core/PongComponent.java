@@ -13,6 +13,8 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import pong.entities.Paddle;
+
 public class PongComponent extends Canvas {
 	private static final long serialVersionUID = 1L;
 	public static int WIDTH = 800;
@@ -37,11 +39,6 @@ public class PongComponent extends Canvas {
 		setPreferredSize(size);
 		setMinimumSize(size);
 		setMaximumSize(size);
-
-		game = new Game(WIDTH, HEIGHT);
-		game.setUseML(true);
-//		game.setUsePlayer2AI(true);
-		game.setUseWall(true);
 		screen = new Screen(WIDTH, HEIGHT);
 
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -112,6 +109,9 @@ public class PongComponent extends Canvas {
 
 	private void tick() {
 		game.tick(inputManager.keys);
+		if(game.over) {
+			running = false;
+		}
 	}
 
 	private void render() {
@@ -136,9 +136,13 @@ public class PongComponent extends Canvas {
 	}
 	
 	public double run(double[] weights) {
-		game.weights(weights);
+		game = new Game(WIDTH, HEIGHT, weights)
+				.setUseML(true)
+				.setUseWall(true).build();
+//		setUsePlayer2AI(true);
+		JFrame frame = null;
 		if(render) {
-			JFrame frame = new JFrame("Pong");
+			frame = new JFrame("Pong");
 			JPanel panel = new JPanel(new BorderLayout());
 			panel.add(this, BorderLayout.CENTER);
 			frame.setContentPane(panel);
@@ -150,7 +154,10 @@ public class PongComponent extends Canvas {
 		} 
 		running = true;
 		run();
-		return 0;
+		if(frame != null) {
+			frame.dispose();
+		}
+		return (double) game.bounces;
 	}
 
 	public void stop() {
@@ -169,7 +176,8 @@ public class PongComponent extends Canvas {
 		double[] weights = new double[82];
 		for(int i = 0; i < weights.length; i++) {
 			weights[i] = new Random().nextDouble();
+			weights[i] = 0;
 		}
-		component.run(weights);
+		System.out.println(component.run(weights));
 	}
 }
