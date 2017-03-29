@@ -17,11 +17,10 @@ public class Layer {
 	}
 
 	public double[] calculateOutputs(double inputs[]) {
-		double[] outputs = new double[nodes.length + 1];
+		double[] outputs = new double[nodes.length];
 		for (int i = 0; i < nodes.length - 1; i++) {
 			outputs[i] = ((Node) nodes[i]).calculateNet(inputs);
 		}
-		outputs[outputs.length - 1] = 1;
 		return outputs;
 	}
 }
