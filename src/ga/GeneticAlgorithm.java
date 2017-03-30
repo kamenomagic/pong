@@ -7,15 +7,16 @@ import pong.core.PongComponent;
 public class GeneticAlgorithm {
 	private static double mutationRate = 0.10;
 	
-	private static double fitness(double[] weights) {		
-		PongComponent pong = new PongComponent().render(true);
+	private static double fitness(double[] weights, boolean render) {
+		PongComponent pong = new PongComponent().render(render);
 		return pong.run(weights);
 	}
 	
-	public static double[] fitness(double[][] population) {
+	public static double[] fitness(double[][] population, boolean render) {
 		double[] fitnesses = new double[population.length];
 		for(int i = 0; i < population.length; i++) {
-			fitnesses[i] = fitness(population[i]);
+			fitnesses[i] = fitness(population[i], render);
+//			System.out.print(fitnesses[i] + ",");
 		}
 		return fitnesses;
 	}
@@ -66,9 +67,9 @@ public class GeneticAlgorithm {
 		for (int i = 0; i < weights.length; i++) {
 			if (ran.nextDouble() < mutationRate) {
 				int b = ran.nextInt(weights.length);
-				weights[i] = weights[i] + ran.nextDouble() * 2 - 1;
+				weights[i] = weights[i] + ran.nextDouble() * 2 - 1);
 			}
 		}
-		return null;
+		return weights;
 	}
 }

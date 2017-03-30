@@ -63,13 +63,12 @@ public class Game {
 		boolean up2 = keys[KeyEvent.VK_UP];
 		boolean down2 = keys[KeyEvent.VK_DOWN];
 
-		boolean[] outputs = net.play(new double[]{player1.y, ball.x, ball.y, ball.xSpeed, ball.ySpeed});
+		double player1y = player1.y - (height/2);
+		double ballx = ball.x - (width/2);
+		double bally = ball.y - (height/2);
+		boolean[] outputs = net.play(new double[]{player1y, ballx, bally, ball.xSpeed, ball.ySpeed});
 		up1 = outputs[0];
 		down1 = outputs[1];
-		if(up1) 
-			System.out.println("up");
-		if(down1) 
-			System.out.println("down");
 		if (up1 || down1) {
 			player1.ySpeed = up1 ? -PADDLE_SPEED : PADDLE_SPEED;
 		} else {
@@ -129,7 +128,8 @@ public class Game {
 
 	private void reset() {
 		over = true;
-		player1.y = player2.y = height / 2;
+//		player1.y = player2.y = height / 2;
+		player1.y = player1.sprite.height + 25;
 		player1.x = player1.sprite.width / 2;
 		player2.x = width - player2.sprite.width / 2;
 //		ball.xSpeed = ball.xSpeed > 0 ? -BALL_SPEED : BALL_SPEED;

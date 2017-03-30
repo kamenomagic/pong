@@ -20,8 +20,8 @@ public class NeuralNet {
 		hiddenLayer = new Layer(hiddenNodes, hiddenWeights);
 		outputLayer = new Layer(outputNodes, outputWeights);
 	}
-
 	public boolean[] play(double[] inputs) {
+
 		double[] hiddenNets = hiddenLayer.calculateOutputs(inputs);
 		double[] nets = outputLayer.calculateOutputs(hiddenNets);
 		return new boolean[]{nets[0] > 0, nets[1] > 0};

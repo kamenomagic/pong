@@ -57,7 +57,7 @@ public class PongComponent extends Canvas {
 		if(render) {
 			int frames = 0;
 			int tickCount = 0;
-			double FPS = 60.0;
+			double FPS = 60;
 			double unprocessedSeconds = 0;
 			double secondsPerTick = 1 / FPS;
 			double end = System.nanoTime();
@@ -174,7 +174,6 @@ public class PongComponent extends Canvas {
 		double[] weights = new double[82];
 		for(int i = 0; i < weights.length; i++) {
 			weights[i] = new Random().nextDouble();
-			weights[i] = 0;
 		}
 		System.out.println(component.run(weights));
 	}

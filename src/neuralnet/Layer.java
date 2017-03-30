@@ -7,7 +7,7 @@ public class Layer {
 		nodes = new Node[size];
 		int inputs = weights.length / size;
 		double[] nodeWeights;
-		for (int i = 0; i < nodes.length - 1; i++) {
+		for (int i = 0; i < nodes.length; i++) {
 			nodeWeights = new double[inputs];
 			for(int j = 0; j < nodeWeights.length; j++) {
 				nodeWeights[j] = weights[i * inputs + j];
@@ -18,7 +18,7 @@ public class Layer {
 
 	public double[] calculateOutputs(double inputs[]) {
 		double[] outputs = new double[nodes.length];
-		for (int i = 0; i < nodes.length - 1; i++) {
+		for (int i = 0; i < nodes.length; i++) {
 			outputs[i] = ((Node) nodes[i]).calculateNet(inputs);
 		}
 		return outputs;
