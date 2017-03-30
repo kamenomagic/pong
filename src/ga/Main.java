@@ -17,6 +17,7 @@ public class Main {
 	public static final int keepSurvivorsCount = 0; // must be less than survivalCount
 	public static final double randomSurvivalRate = 0.005;
 	public static final int generations = 1000;
+	private static final double mutationRate = 0.10;
 
 	public static void main(String[] args) {
 
@@ -71,7 +72,7 @@ public class Main {
 
 				double afterCrossover[] = crossover(survivors[parent1], survivors[parent2]);
 
-				double afterMutation[] = mutate(afterCrossover);
+				double afterMutation[] = mutate(afterCrossover, mutationRate);
 
 				population[i] = afterMutation;
 			}
