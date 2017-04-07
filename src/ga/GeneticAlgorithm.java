@@ -5,7 +5,6 @@ import java.util.Random;
 import pong.core.PongComponent;
 
 public class GeneticAlgorithm {
-	private static double mutationRate = 0.10;
 	
 	public static double fitness(double[] weights, boolean render) {
 		PongComponent pong = new PongComponent().render(render);
@@ -62,7 +61,7 @@ public class GeneticAlgorithm {
 		return result;
 	}
 
-	public static double[] mutate(double[] weights) {
+	public static double[] mutate(double[] weights, double mutationRate) {
 		Random ran = new Random();
 		for (int i = 0; i < weights.length; i++) {
 			if (ran.nextDouble() < mutationRate) {
