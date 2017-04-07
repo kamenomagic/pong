@@ -18,9 +18,8 @@ public class Main {
 	public static final int genomeSize = 82;
 	public static final double survivalRate = 0.1;
 	public static final int survivalCount = (int)(populationSize * survivalRate);
-	public static final int keepSurvivorsCount = 3; // must be less than survivalCount
-	public static final double randomSurvivalRate = 0.005;
-	public static final int generations = 1000;
+	public static final int keepSurvivorsCount = 0; // must be less than survivalCount
+	public static final int generations = 100;
 	private static final double mutationRate = 0.60;
 
 	public static void main(String[] args) {
@@ -38,37 +37,35 @@ public class Main {
 			}
 			population[i] = genome;
 		}
-
+		System.out.println("generation, best fitness, minimum to survive, average survival fitness");
 		while(true) {
 			//selection
-			System.out.println();
-			System.out.print("generation (" + generation + "): ");
 			double fitnesses[] = fitness(population, false/*generation > 60*/);
 
-			List<Tuple<double[], Double>> survivors = new ArrayList<Tuple<double[], Double>>();
+			List<Tuple<double[], Double>> survivors = new ArrayList<>();
 			for (int i = 0; i < population.length; i++) {
-				survivors.add(new Tuple<double[],Double>(population[i], fitnesses[i]));
+				survivors.add(new Tuple<>(population[i], fitnesses[i]));
 			}
 
-			Comparator<Tuple<double[], Double>> tupleComparator = new Comparator<Tuple<double[], Double>>()
-		    {
-
-		        public int compare(Tuple<double[], Double> tupleA,
-		                Tuple<double[], Double> tupleB)
-		        {
-		            return tupleA.getSecond().compareTo(tupleB.getSecond());
-		        }
-
-		    };
+			Comparator<Tuple<double[], Double>> tupleComparator =
+					(Tuple<double[], Double> tupleA, Tuple<double[], Double> tupleB) ->
+		             tupleA.getSecond().compareTo(tupleB.getSecond());
 
 		    Collections.sort(survivors, tupleComparator.reversed());
 
-		    survivors = (List<Tuple<double[], Double>>) survivors.subList(0, survivalCount);
+		    survivors = survivors.subList(0, survivalCount);
 
-		    System.out.print(survivors.get(0).getSecond() + "," + survivors.get(survivors.size() - 1).getSecond());
+			//print best and worst
+		    System.out.print(
+					generation + ", " +
+					survivors.get(0).getSecond() + ", " +
+					survivors.get(survivors.size() - 1).getSecond() + ", " +
+					survivors.stream().map(Tuple::getSecond).reduce((Double a, Double b) -> a + b).get() / survivors.size()
+			);
+
+			System.out.println();
 
 			population = new double[populationSize][];
-
 
 			//previous generation survivors
 			for (int i = 0; i < keepSurvivorsCount; i++) {
@@ -77,7 +74,7 @@ public class Main {
 
 			//genetic operators
 			for (int i = keepSurvivorsCount; i < populationSize; i++) {
-				int parent1 = rand.nextInt(4);
+				int parent1 = rand.nextInt(survivors.size());
 				int parent2 = rand.nextInt(survivors.size());
 
 				double afterCrossover[] = crossover(survivors.get(parent1).getFirst(), survivors.get(parent2).getFirst());

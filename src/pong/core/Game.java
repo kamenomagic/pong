@@ -18,7 +18,7 @@ public class Game {
 	public Ball ball;
 	private static final double PADDLE_SPEED = 10;
 	private static final double BALL_SPEED = 2.5;
-	private static final double MAX_BALL_SPEED = 50;
+	private static final double MAX_BALL_SPEED = 45;
 
 	private double[] weights;
 	private boolean useWall = false;
@@ -72,18 +72,10 @@ public class Game {
 		up1 = outputs[0];
 		down1 = outputs[1];
 		if (up1 || down1) {
-//			player1.ySpeed = (up1 ? -PADDLE_SPEED : 0) + (down1 ? PADDLE_SPEED : 0);
 			player1.ySpeed = up1 ? -PADDLE_SPEED : PADDLE_SPEED;
 		} else {
 			player1.ySpeed = 0;
 		}
-//		if(outputs[0] > 0 &&  outputs[0] > outputs[1]) {
-//			player1.ySpeed = -PADDLE_SPEED;
-//		} else if(outputs[1] > 0 && outputs[1] > outputs[0]) {
-//			player1.ySpeed = PADDLE_SPEED;
-//		} else {
-//			player1.ySpeed = 0;
-//		}
 
 		if (useAI) {
 			if (ball.y < player2.y) {
