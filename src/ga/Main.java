@@ -38,7 +38,7 @@ public class Main {
 			//selection
 			System.out.println();
 			System.out.print("generation (" + generation + "): ");
-			double fitnesses[] = fitness(population, generation > 60);
+			double fitnesses[] = fitness(population, false);
 			double sortedFitnesses[] = Arrays.copyOf(fitnesses, fitnesses.length);
 			Arrays.sort(sortedFitnesses);
 			double minimumFitness = sortedFitnesses[populationSize - survivalCount];
@@ -51,6 +51,9 @@ public class Main {
 				if (fitnesses[i] >= minimumFitness || rand.nextDouble() < randomSurvivalRate) {
 
 					survivors[nextSurvivor++] = population[i];
+				}
+				if(fitnesses[i] == sortedFitnesses[sortedFitnesses.length -1]) {
+					fitness(population[i], generation > 15);
 				}
 				if (nextSurvivor >= survivalCount) {
 					break;

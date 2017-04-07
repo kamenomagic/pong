@@ -101,7 +101,7 @@ public class PongComponent extends Canvas {
 				}
 			}
 		} else {
-			while(running) {
+			while(running && game.bounces < 100) {
 				tick();
 			}
 		}
@@ -137,7 +137,7 @@ public class PongComponent extends Canvas {
 	
 	public double run(double[] weights) {
 		game = new Game(WIDTH, HEIGHT, weights).setUseWall(true).build();
-//		setUsePlayer2AI(true);
+//		game = new Game(WIDTH, HEIGHT, weights).setUseAI(true).build();
 		JFrame frame = null;
 		if(render) {
 			frame = new JFrame("Pong");
